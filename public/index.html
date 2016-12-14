@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en-US" ng-app="jotto">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jotto Game</title>
+    <!-- Bootstrap css and my own css -->
+    <link rel="stylesheet" 
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" 
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    
+    <div ng-controller="gameCtrl as game">
+    	<div class="row">
+	    	<div class="page-header col-md-8 col-md-offset-2">
+		    	<h1>JOTTO</h1>
+		    	<h4>Take your best guess.</h4>
+	    	</div>
+	    </div>
+    	<div class="row" ng-show="game.gameStatus.gameSettingsActive">
+    		<div class="well col-md-8 col-md-offset-2">
+    			<div class="optionsbox">
+	  				<button class="btn btn-md btn-default pull-left player-buttons" ng-click="game.changeAllowNonUnique()" ng-class="{'btn-info': game.gameStatus.allowNonUnique}">Allow duplicate letters?</button>
+				</div>
+				<div class="row">
+	    			<button class="btn btn-lg btn-primary player-buttons" ng-click="game.onePlayerStart()">One-Player</button>
+	    			<button class="btn btn-lg btn-success player-buttons" ng-click="game.twoPlayerStart()">Two-Players</button> 			
+	    		</div>
+    		</div>
+    	</div>
+
+	    <div class="row" ng-show="game.gameStatus.selectSecretActive">
+	    	<div class="well col-md-8 col-md-offset-2">
+	    		<form name="game.secretForm" class="form" ng-submit="game.formSecretSubmit()">
+			    		<input class="form-control" type="text" placeholder="What's your Secret Word?" ng-model="game.formSecret">
+			    		<button class="btn btn-sm btn-info pull-right guess-btn">Submit!</button>
+			   	</form>
+	    		<div class="secretResponse" ng-show="game.formSecretResponse"><h5>{{game.formSecretResponse}}</h5></div>
+	    	</div>
+	    </div>
+    </div>
+
+    <div ng-controller="guessCtrl as guess" ng-show="guess.gameStatus.gameStartedActive">
+    	<div class="row">
+    		<div class="winnerDiv col-md-8 col-md-offset-2" ng-if="guess.playerWin">
+    			<h3>Congratulations! {{guess.fiveWords.secretWord | uppercase}} is the correct guess! It took you {{guess.playerGuess.length}} tries. {{guess.playerWinResponse}}</h3>	
+    		</div>
+	    </div>
+
+	    <div class="row">
+	    	<div class="col-md-8 col-md-offset-2 well well-sm">
+	    		<div class="row">
+		    		<h4>Track your letters</h4>
+				</div>
+		    	<div class="row button-row">
+		    		<button ng-repeat="letter in guess.alphabet"
+		    				ng-if="$index < 13" 
+		    				class="btn btn-sm letter-btn" 
+		    				ng-class="guess.alphabet[$index].status" 
+		    				ng-click="guess.changeAlphabetClass($index)">
+		    					{{guess.alphabet[$index].letter}}
+		    		</button>
+	    		</div>
+	    		<div class="row button-row">
+	    			<div>
+			    		<button ng-repeat="letter in guess.alphabet"
+			    				ng-if="$index > 12" 
+			    				class="btn btn-sm letter-btn" 
+			    				ng-class="guess.alphabet[$index].status" 
+			    				ng-click="guess.changeAlphabetClass($index)">
+			    					{{guess.alphabet[$index].letter}}
+			    		</button>
+		    		</div>
+	    		</div>
+	    	</div>
+	    </div>
+
+    	<div class="row">
+	    	<div class="col-md-8 col-md-offset-2">
+	    		<div class="col-xs-4 col-sm-3 col-md-2" class="player-guess"
+	    			 ng-repeat="playerGuess in guess.playerGuess">
+	    			 <h5>{{playerGuess.guess.toUpperCase()+" "+playerGuess.numCorrect}}</h5>
+	    		</div>
+	    	</div>
+    	</div>
+
+    	<div class="input-form row">
+	    	<div class="col-md-8 col-md-offset-2 well well-sm" ng-if="!guess.playerWin">
+	    		<div class="row">
+		    		<form name="guess.guessForm" class="form" ng-submit="guess.formGuessSubmit()">
+				    		<input class="form-control" type="text" placeholder="Guess!" ng-model="guess.formGuess" ng-disabled="guess.gameStatus.notYourTurn">
+				    		<button class="btn btn-sm btn-info pull-right guess-btn" ng-disabled="guess.gameStatus.notYourTurn">Guess!</button>
+				   	</form>
+		    		<div class="guessResponse" ng-show="guess.formGuessResponse"><h5>{{guess.formGuessResponse}}</h5></div>
+	    		</div>
+	    	</div>
+    	</div>
+    </div>
+
+    <!-- third party js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.2/angular.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <!-- Our application scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/controllers/guess.js"></script>
+    <script src="js/controllers/game.js"></script>
+    <script src="js/factories/fiveWords.js"></script>
+    <script src="js/factories/gameStatus.js"></script>
+
+</body>
+</html>
+

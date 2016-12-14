@@ -1,0 +1,31 @@
+.row{
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.letter-btn{
+	width: 7.69%;
+	border: 3px;
+}
+
+.input-form{
+	margin-top: 20px;
+}
+
+.winnerDiv{
+	margin-bottom: 30px;
+}
+
+.letter-btn{
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.player-buttons{
+}
+
+.optionsbox{
+	width: 100%;
+	height: 30px;
+	margin-bottom: 20px;
+}
