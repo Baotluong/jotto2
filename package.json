@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Baotluong/jotto2/issues"
   },
-  "homepage": "https://github.com/Baotluong/jotto2#readme"
+  "homepage": "https://github.com/Baotluong/jotto2#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
 }
