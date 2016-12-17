@@ -33,7 +33,7 @@ app.put('/update', function (req, res) {
 	query: {_id: mongojs.ObjectId(id)},
 	update: {$set: {game: { playerOne: req.body.game.playerOne, playerTwo: req.body.game.playerTwo, firstPlayer: req.body.game.firstPlayer,
 							playerOneSecret: req.body.game.playerOneSecret, playerTwoSecret: req.body.game.playerTwoSecret },
-							guesses: req.body.guesses}},
+				    guesses: { playerOne:req.body.guesses.playerOne, playerTwo:req.body.guesses.playerTwo}}},
 	new: true}, function (err, doc) {
 			res.json(doc);
 		}
