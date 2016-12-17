@@ -1,0 +1,20 @@
+{
+  "name": "jotto2",
+  "version": "1.0.0",
+  "description": "5 Letter Guessing Game",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Baotluong/jotto2.git"
+  },
+  "author": "Bao T Luong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Baotluong/jotto2/issues"
+  },
+  "homepage": "https://github.com/Baotluong/jotto2#readme"
+}
