@@ -1,4 +1,5 @@
-process.env.PWD = process.cwd()
+console.log("starting")
+process.env.PWD = process.cwd();
 
 var express = require('express');
 var app = express();
@@ -7,6 +8,7 @@ var db = mongojs('jotto2', ['jotto2']);
 var bodyParser = require('body-parser');
 
 //app.use(express.static(__dirname + "/public"));
+console.log("before .use");
 app.use(express.static(process.env.PWD+'/public'));
 
 app.use(bodyParser.json());
