@@ -1,8 +1,14 @@
 {
   "name": "jotto2",
   "version": "1.0.0",
-  "description": "5 Letter Guessing Game",
+  "description": "",
   "main": "server.js",
+  "dependencies": {
+    "express" : "4.14.0"
+  , "body-parser" : "1.15.2"
+  , "mongodb" : "2.2.16"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
@@ -11,7 +17,8 @@
     "type": "git",
     "url": "git+https://github.com/Baotluong/jotto2.git"
   },
-  "author": "Bao T Luong",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Baotluong/jotto2/issues"
