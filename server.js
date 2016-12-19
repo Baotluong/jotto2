@@ -3,11 +3,12 @@ var app = express();
 var mongojs = require('mongojs');
 var db = mongojs('jotto2', ['jotto2']);
 var bodyParser = require('body-parser');
+var port = process.env.PORT || 3000;
 
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 
-app.listen(3000);
+app.listen(port);
 console.log("server running from port 3000");
 
 app.post('/newgame', function (req, res) {
