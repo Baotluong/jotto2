@@ -4,17 +4,8 @@ process.env.PWD = process.cwd();
 var express = require('express');
 var app = express();
 var mongojs = require('mongojs');
-//var db = mongojs('jotto2', ['jotto2']);
+var db = mongojs(process.env.MONGOLAB_URI, ['jotto2']);
 var bodyParser = require('body-parser');
-var mongoURI = process.env.MONGOLAB_URI;
-var db = null;
-
-mongojs.connect(mongoURI, function(err, connection) {
-  assert.equal(null, err);
-  console.log("Connected correctly to server");
-
-  db = connection;
-});
 
 //app.use(express.static(__dirname + "/public"));
 console.log("before .use");
