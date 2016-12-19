@@ -1,10 +1,14 @@
+process.env.PWD = process.cwd()
+
 var express = require('express');
 var app = express();
 var mongojs = require('mongojs');
 var db = mongojs('jotto2', ['jotto2']);
 var bodyParser = require('body-parser');
 
-app.use(express.static(__dirname + "/public"));
+//app.use(express.static(__dirname + "/public"));
+app.use(express.static(process.env.PWD+'/public'));
+
 app.use(bodyParser.json());
 
 app.listen(process.env.PORT || 3000, function(){
