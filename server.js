@@ -4,7 +4,7 @@ process.env.PWD = process.cwd();
 var express = require('express');
 var app = express();
 var mongojs = require('mongojs');
-var db = mongojs(process.env.MONGOLAB_URI, ['jotto2']);
+var db = mongojs('test:test@ds139448.mlab.com:39448/heroku_1v6nd9tz', ['jotto2']);
 var bodyParser = require('body-parser');
 
 //app.use(express.static(__dirname + "/public"));
