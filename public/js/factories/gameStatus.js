@@ -38,11 +38,15 @@
 		}
 
 		function setPlayersTurn(){
-			if((dataObj.playerNumber == dataObj.twoPlayerSettings.game.firstPlayer && dataObj.twoPlayerSettings.guesses.playerOne.length == dataObj.twoPlayerSettings.guesses.playerTwo.length) ||
-			   (dataObj.playerNumber !== dataObj.twoPlayerSettings.game.firstPlayer && dataObj.twoPlayerSettings.guesses.playerOne.length !== dataObj.twoPlayerSettings.guesses.playerTwo.length)){
-				dataObj.notYourTurn = false;
-			}else{
-				dataObj.notYourTurn = true;
+			if(dataObj.gameStartedActive){
+				if((dataObj.playerNumber == dataObj.twoPlayerSettings.game.firstPlayer && dataObj.twoPlayerSettings.guesses.playerOne.length == dataObj.twoPlayerSettings.guesses.playerTwo.length) ||
+				   (dataObj.playerNumber !== dataObj.twoPlayerSettings.game.firstPlayer && dataObj.twoPlayerSettings.guesses.playerOne.length !== dataObj.twoPlayerSettings.guesses.playerTwo.length)){
+					dataObj.notYourTurn = false;
+					setAlert("oppGuessed");
+				}else{
+					dataObj.notYourTurn = true;
+					setAlert("oppGuessing");
+				}
 			}
 		}
 
@@ -75,6 +79,7 @@
 		function restoreStatus(){
 			playerCheck();
 			setPlayersTurn();
+
 			var playerNumber = dataObj.playerNumber;
 			if(playerNumber == 1){
 				if(!dataObj.twoPlayerSettings.game.playerOneSecret){
@@ -180,9 +185,24 @@
 		}
 
 		function setAlert(message){
+			var oppGuess = "";
 			switch(message){
 				case "waitingSecret":
-					dataObj.alert = "Waiting on Opponent to select a Secret";
+					dataObj.alert = "Waiting on opponent to select a Secret";
+					break;
+				case "oppGuessing":
+					dataObj.alert = "Your opponent is guessing.";
+					break;
+				case "oppGuessed":
+					if(dataObj.playerNumber == 1 && dataObj.twoPlayerSettings.guesses.playerTwo.length > 0){
+						oppGuess = dataObj.twoPlayerSettings.guesses.playerTwo[dataObj.twoPlayerSettings.guesses.playerTwo.length-1].guess.toUpperCase();
+						dataObj.alert = "It's your turn! Your opponent guessed "+oppGuess+".";
+					}else if(dataObj.playerNumber == 2 && dataObj.twoPlayerSettings.guesses.playerOne.length > 0){
+						oppGuess = dataObj.twoPlayerSettings.guesses.playerOne[dataObj.twoPlayerSettings.guesses.playerOne.length-1].guess.toUpperCase();
+						dataObj.alert = "It's your turn! Your opponent guessed "+oppGuess+".";
+					}else{
+						dataObj.alert = "It's your turn!";	
+					}
 					break;
 				default:
 					dataObj.alert = "";
@@ -213,7 +233,12 @@
 		function refreshSettings(){
 			$http.get('/gameStatus/'+gameId).then(function(response){
 				dataObj.twoPlayerSettings = response.data;
-				restoreStatus();
+				if(dataObj.selectSecretActive){
+					restoreStatus();
+				}else{
+					playerCheck();
+					setPlayersTurn();	
+				}
 				console.log(response);
 			});
 		}

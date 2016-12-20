@@ -16,10 +16,13 @@
 		vm.formSecretSubmit = formSecretSubmit;
 		vm.formSecret = "";
 		vm.formSecretResponse = "";
+		vm.docURL = document.URL;
+		vm.clipBoard = clipBoard;
 
 		function onePlayerStart(){
 			gameStatus.gameStartedActive = true;
 			gameStatus.gameSettingsActive = false;
+			gameStatus.notYourTurn = false;
 		};
 
 		function twoPlayerStart(){
@@ -29,10 +32,10 @@
 	    		gameStatus.playerNumber = 1;
 	    		gameStatus.twoPlayerSettings.game.playerOne = gameStatus.twoPlayerSettings._id+" "+1;
 	    		$location.search('id', gameStatus.twoPlayerSettings._id);
+	    		vm.docURL = document.URL+"#?id="+gameStatus.twoPlayerSettings._id;
 	    		gameStatus.updateGameStatus();
     			gameStatus.gameSettingsActive = false;
 		    	gameStatus.selectSecretActive = true;
-		    	console.log(gameStatus);
 	    	});
 		};
 
@@ -67,6 +70,19 @@
 				gameStatus.setPlayersTurn();
 				gameStatus.setAlert("waitingSecret");
 			}
+		}
+
+		function clipBoard(){
+			var copyTextarea = document.querySelector('.js-copytextarea');  
+			copyTextarea.select();
+
+			try {  
+				var successful = document.execCommand('copy');  
+				var msg = successful ? 'successful' : 'unsuccessful';  
+			    console.log('copying text command was ' + msg);  
+			} catch(err) {  
+			    console.log('Oops, unable to cut');  
+			}  
 		}
 	}
 

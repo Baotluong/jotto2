@@ -100,7 +100,7 @@
 
 			numCorrect = checkNumCorrect(guess, secret);
 
-			gameStatus.onePlayerGuess.push({"guess": guess, "numCorrect":numCorrect});
+			gameStatus.onePlayerGuesses.push({"guess": guess, "numCorrect":numCorrect});
 
 			if(guess == secret){
 				gameStatus.playerWins(secret, gameStatus.onePlayerGuesses.length);
@@ -120,7 +120,7 @@
 				numCorrect = checkNumCorrect(guess, secret);
 				gameStatus.twoPlayerSettings.guesses.playerTwo.push({"guess": guess, "numCorrect":numCorrect});
 			}
-
+			gameStatus.setAlert("oppGuessing");
 			gameStatus.updateGameStatus();
 
 			if(guess == secret){
