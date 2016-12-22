@@ -24,7 +24,7 @@
     <div ng-controller="gameCtrl as game">
     	<div class="row">
 	    	<div class="page-header col-md-8 col-md-offset-2">
-		    	<h1><img src="android-chrome-512x512.png" class="icon-image">JOTTO</h1>
+		    	<h1 ng-click="game.gameStatus.goHome()"><img src="android-chrome-512x512.png" class="icon-image">JOTTO</h1>
 		    	<h4>Take your best guess.</h4>
 	    	</div>
 	    </div>
@@ -35,10 +35,12 @@
     	</div>
     	<div class="row" ng-show="game.gameStatus.gameSettingsActive">
     		<div class="well col-md-8 col-md-offset-2">
+    			Game Variant:
     			<div class="optionsbox">
 	  				<button class="btn btn-md btn-default pull-left player-buttons" ng-click="game.changeAllowNonUnique()" ng-class="{'btn-info': game.gameStatus.allowNonUnique}">Allow duplicate letters?</button>
 					<a href="#" class="info-glyph" data-toggle="tooltip" data-placement="right" title="Do you want to allow guesses to have duplicate letters? This variant tends to make the game easier, but also allows for additional layer of strategy."><span class="glyphicon glyphicon-info-sign"></span></a>
 				</div>
+				Player Modes:
 				<div class="row">
 	    			<button class="btn btn-lg btn-primary player-buttons" ng-click="game.onePlayerStart()">One-Player</button>
 	    			<button class="btn btn-lg btn-success player-buttons" ng-click="game.twoPlayerStart()">Two-Players</button> 			
@@ -56,12 +58,14 @@
 			</div>
     	</div>
 	    <div class="row" ng-show="game.gameStatus.selectSecretActive">
-	    	<div class="well col-md-8 col-md-offset-2">
-	    		<form data-toggle="tooltip" data-placement="bottom" title="Choose your secret word. It must be a 5-letter word with no duplicate letters. Your opponent will try to guess it. Don't make it too easy, but don't pick a word they wouldn't know. That's no fun either." name="game.secretForm" class="form" ng-submit="game.formSecretSubmit()">
-			    		<input class="form-control" type="text" placeholder="What's your Secret Word?" ng-model="game.formSecret">
-			    		<button class="btn btn-sm btn-info pull-right formSubmitBtn">Submit!</button>
-			   	</form>
-	    		<div class="secretResponse" ng-show="game.formSecretResponse"><h5>{{game.formSecretResponse}}</h5></div>
+	    	<div class="well well-sm col-md-8 col-md-offset-2">
+	    		<div class="row">
+		    		<form data-toggle="tooltip" data-placement="bottom" title="Choose your secret word. It must be a 5-letter word with no duplicate letters. Your opponent will try to guess it. Don't make it too easy, but don't pick a word they wouldn't know. That's no fun either." name="game.secretForm" class="form" ng-submit="game.formSecretSubmit()">
+				    		<input class="form-control" type="text" placeholder="What's your Secret Word?" ng-model="game.formSecret">
+				    		<button class="btn btn-sm btn-info pull-right formSubmitBtn">Submit!</button>
+				   	</form>
+		    		<div class="secretResponse" ng-show="game.formSecretResponse"><h5>{{game.formSecretResponse}}</h5></div>
+		    	</div>
 	    	</div>
 	    </div>
     </div>
@@ -98,7 +102,7 @@
 	    	<div class="col-md-8 col-md-offset-2 well well-sm letter-box">
 	    		<div class="row">
 		    		<h4 class="col-xs-8">Track your letters</h4>
-					<a class="track-glyph pull-right" data-toggle="tooltip" data-placement="top" title="Track your letters here. The letters will change colors when you click on them. Use Green for letters you know are in the secret word and use red for letters you know that aren't."><span class="glyphicon glyphicon-info-sign"></span></a>
+					<a class="track-glyph pull-right" data-toggle="tooltip" data-placement="left" title="Track your letters here. The letters will change colors when you click on them. Use Green for letters you know are in the secret word. Use Red for letters you know that aren't."><span class="glyphicon glyphicon-info-sign"></span></a>
 		    		<label class="pull-right" ng-show="guess.gameStatus.allowNonUnique||guess.gameStatus.twoPlayerSettings.allowNonUnique">
 		    			<h5 data-toggle="tooltip" title="Your guesses may include duplicate letters.">
 		    				<span class="glyphicon glyphicon glyphicon-ok-circle"></span>Duplicate Letters Allowed

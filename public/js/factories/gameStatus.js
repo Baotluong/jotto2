@@ -15,7 +15,6 @@
 		var notYourTurn = true;
 		var firstPlayer = Math.floor((Math.random() * 2) + 1);
 		var playerNumber = "";
-		var gameId = $location.search().id;
 		var playerWin = "";
 		var onePlayerGuesses = [];
 		var playerWinResponse = "";
@@ -28,6 +27,11 @@
 			allowNonUnique: false
 		};
 
+		function goHome(){
+			$location.search('id', null);
+			location.reload();
+		}
+		
 		function updateGameStatus(){
 			$http.put('/update', dataObj.twoPlayerSettings).then(function(response){
 				console.log("Game status updated.");
@@ -211,10 +215,8 @@
 			}
 		}
 
-
-		//TODONEXT: THIS IS NOT WORKING RIGHT NOW FIX. ALSO ADD A LINK THAT REDIRECTS TO HOME.
-		if(gameId){
-			$http.get('/gameStatus/'+gameId)
+		if($location.search().id){
+			$http.get('/gameStatus/'+$location.search().id)
 				.then(function(response){
 					dataObj.twoPlayerSettings = response.data;
 					restoreStatus();
@@ -225,7 +227,8 @@
 						dataObj.updateGameStatus();
 						restoreStatus();
 					}
-					$interval(refreshSettings, 3000);
+					$interval.cancel(window.refreshInterval);
+					window.refreshInterval = $interval(refreshSettings, 2000);
 				})
 				.catch(function(data){
 					console.log(data);
@@ -235,12 +238,24 @@
 		}
 
 		function refreshSettings(){
-			$http.get('/gameStatus/'+gameId).then(function(response){
+			$http.get('/gameStatus/'+$location.search().id).then(function(response){
 				dataObj.twoPlayerSettings = response.data;
 				restoreStatus();
 				console.log(response);
 			});
 		}
+
+		window.addEventListener('focus', function() {
+			$interval.cancel(window.refreshInterval);
+			if(dataObj.playerNumber){
+				window.refreshInterval = $interval(refreshSettings, 2000);	
+				refreshSettings();
+			}
+		},false);
+
+		window.addEventListener('blur', function() {
+		    $interval.cancel(window.refreshInterval);
+		},false);
 
 		dataObj = {
 			twoPlayerSettings: twoPlayerSettings,
@@ -258,7 +273,8 @@
 			playerWinResponse: playerWinResponse,
 			playerLost: playerLost,
 			alert: alert,
-			setAlert: setAlert
+			setAlert: setAlert,
+			goHome: goHome
 		}
 
 		return dataObj;
