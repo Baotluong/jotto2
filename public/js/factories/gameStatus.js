@@ -9,6 +9,7 @@
 	function gameStatus($http, $location, $interval){
 
 		var allowNonUnique = false;
+		var activeState = "settings";
 		var gameSettingsActive = true;
 		var gameStartedActive = false;
 		var selectSecretActive = false;
@@ -20,6 +21,7 @@
 		var playerWinResponse = "";
 		var playerLost = "";
 		var alert = "";
+		var alertGoHome = false;
 
 		var twoPlayerSettings = {
 			game: { playerOne: "", playerTwo: "", playerOneSecret: "", playerTwoSecret: "", firstPlayer: firstPlayer },
@@ -31,13 +33,10 @@
 			$location.search('id', null);
 			location.reload();
 		}
-		
+
 		function updateGameStatus(){
 			$http.put('/update', dataObj.twoPlayerSettings).then(function(response){
-				console.log("Game status updated.");
-	    		console.log(response);
 	    		setPlayersTurn();
-	    		console.log(dataObj);
 	    	});
 		}
 
@@ -74,9 +73,6 @@
 			var cookieArray = cookie.split(" ");
 			if(cookieArray[0] == dataObj.twoPlayerSettings._id){
 				dataObj.playerNumber = parseInt(cookieArray[1]);
-			}else{
-				//TODO: Error handling for player not found.
-				console.log("Player Not Found.");
 			}
 		}
 
@@ -84,9 +80,8 @@
 			playerCheck();
 			setPlayersTurn();
 
-			var playerNumber = dataObj.playerNumber;
-			if(dataObj.gameSettingsActive){
-				if(playerNumber == 1){
+			if(!dataObj.gameStartedActive){
+				if(dataObj.playerNumber == 1){
 					if(!dataObj.twoPlayerSettings.game.playerOneSecret){
 						dataObj.selectSecretActive = true;
 					}else{
@@ -112,7 +107,7 @@
 					dataObj.gameSettingsActive = false;
 				}
 
-				if(playerNumber == 2){
+				if(dataObj.playerNumber == 2){
 					if(!dataObj.twoPlayerSettings.game.playerTwoSecret){
 						dataObj.selectSecretActive = true;
 					}else{
@@ -210,6 +205,21 @@
 						dataObj.alert = "It's your turn!";	
 					}
 					break;
+				case "errorBadId":
+					dataObj.alert = "Invalid Game ID. Redirecting Home in 10 seconds...";
+					$interval(goHome, 10000);
+					dataObj.alertGoHome = true;
+					//TODO CHANGE ALL ACTIVE STATES TO ONE STATE
+					dataObj.activeState = null;
+					dataObj.gameSettingsActive = false;
+					break;
+				case "errorGameFull":
+					dataObj.alert = "This game is full!"
+					dataObj.alertGoHome = true;
+					//TODO CHANGE ALL ACTIVE STATES TO ONE STATE
+					dataObj.activeState = null;
+					dataObj.gameSettingsActive = false;
+					break;
 				default:
 					dataObj.alert = "";
 			}
@@ -219,22 +229,23 @@
 			$http.get('/gameStatus/'+$location.search().id)
 				.then(function(response){
 					dataObj.twoPlayerSettings = response.data;
-					restoreStatus();
+					//Sets 2nd player cookie
 					if(!dataObj.twoPlayerSettings.game.playerTwo && !dataObj.playerNumber){
+						console.log("moo")
 						dataObj.twoPlayerSettings.game.playerTwo = dataObj.twoPlayerSettings._id+" "+2;
 						document.cookie = dataObj.twoPlayerSettings._id+" "+2;
-						dataObj.playerNumber = 2;
 						dataObj.updateGameStatus();
-						restoreStatus();
+					}
+					restoreStatus();
+					if(!dataObj.playerNumber){
+						setAlert("errorGameFull");
 					}
 					$interval.cancel(window.refreshInterval);
 					window.refreshInterval = $interval(refreshSettings, 2000);
 				})
 				.catch(function(data){
-					console.log(data);
-					//TODO: make error handling
+					setAlert("errorBadId");
 			});
-			console.log("cookie is "+document.cookie);
 		}
 
 		function refreshSettings(){
@@ -259,6 +270,7 @@
 
 		dataObj = {
 			twoPlayerSettings: twoPlayerSettings,
+			activeState: activeState,
 			gameSettingsActive: gameSettingsActive,
 			gameStartedActive: gameStartedActive,
 			allowNonUnique: allowNonUnique,
@@ -274,7 +286,8 @@
 			playerLost: playerLost,
 			alert: alert,
 			setAlert: setAlert,
-			goHome: goHome
+			goHome: goHome,
+			alertGoHome: alertGoHome
 		}
 
 		return dataObj;

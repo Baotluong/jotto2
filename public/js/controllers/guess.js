@@ -73,6 +73,7 @@
 
 			function alreadyGuessed(guess){
 				//single player check
+				console.log(gameStatus.playerNumber);
 				if(!gameStatus.playerNumber){
 					for(var i=0; i<gameStatus.onePlayerGuesses.length; i++){
 						if(gameStatus.onePlayerGuesses[i].guess == guess){
@@ -82,14 +83,14 @@
 				}
 				//two player check
 				if(gameStatus.playerNumber == 1){
-					for(var i=0; i<gameStatus.twoPlayerSettings.guesses.playerTwo.length; i++){
-						if(gameStatus.twoPlayerSettings.guesses.playerTwo[i].guess == guess){
+					for(var i=0; i<gameStatus.twoPlayerSettings.guesses.playerOne.length; i++){
+						if(gameStatus.twoPlayerSettings.guesses.playerOne[i].guess == guess){
 							return true;
 						}	
 					}	
 				}else{
-					for(var i=0; i<gameStatus.twoPlayerSettings.guesses.playerOne.length; i++){
-						if(gameStatus.twoPlayerSettings.guesses.playerOne[i].guess == guess){
+					for(var i=0; i<gameStatus.twoPlayerSettings.guesses.playerTwo.length; i++){
+						if(gameStatus.twoPlayerSettings.guesses.playerTwo[i].guess == guess){
 							return true;
 						}	
 					}	

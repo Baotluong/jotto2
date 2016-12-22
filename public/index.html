@@ -31,6 +31,7 @@
 	    <div class="row">
     		<div class="alertDiv col-md-8 col-md-offset-2" ng-show="game.gameStatus.alert">
     			<h4>{{game.gameStatus.alert}}</h4>
+    			<a ng-click="game.gameStatus.goHome()" ng-show="game.gameStatus.alertGoHome">Click here to start new game now.</a>
     		</div>
     	</div>
     	<div class="row" ng-show="game.gameStatus.gameSettingsActive">
@@ -38,7 +39,7 @@
     			Game Variant:
     			<div class="optionsbox">
 	  				<button class="btn btn-md btn-default pull-left player-buttons" ng-click="game.changeAllowNonUnique()" ng-class="{'btn-info': game.gameStatus.allowNonUnique}">Allow duplicate letters?</button>
-					<a href="#" class="info-glyph" data-toggle="tooltip" data-placement="right" title="Do you want to allow guesses to have duplicate letters? This variant tends to make the game easier, but also allows for additional layer of strategy."><span class="glyphicon glyphicon-info-sign"></span></a>
+					<a class="info-glyph" data-toggle="tooltip" data-placement="right" title="Do you want to allow guesses to have duplicate letters? This variant tends to make the game easier, but also allows for additional layer of strategy."><span class="glyphicon glyphicon-info-sign"></span></a>
 				</div>
 				Player Modes:
 				<div class="row">
@@ -72,10 +73,10 @@
 
     <div ng-controller="guessCtrl as guess" ng-show="guess.gameStatus.gameStartedActive">
     	<div class="row">
-    		<div class="alertDiv col-md-8 col-md-offset-2" ng-if="guess.gameStatus.playerWin">
+    		<div class="col-md-8 col-md-offset-2" ng-if="guess.gameStatus.playerWin">
     			<h3>Congratulations! {{guess.gameStatus.playerWin[0] | uppercase}} is the correct guess! It took you {{guess.gameStatus.playerWin[1]}} tries. {{guess.gameStatus.playerWinResponse}}</h3>	
     		</div>
-    		<div class="alertDiv col-md-8 col-md-offset-2" ng-if="guess.gameStatus.playerLost">
+    		<div class="col-md-8 col-md-offset-2" ng-if="guess.gameStatus.playerLost">
     			<h3>Oh no, your opponent has guessed your secret! You almost had them. Their secret was {{guess.gameStatus.playerLost | uppercase}}.</h3>
     		</div>
 	    </div>
