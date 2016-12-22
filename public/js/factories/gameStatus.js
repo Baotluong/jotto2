@@ -81,56 +81,58 @@
 			setPlayersTurn();
 
 			var playerNumber = dataObj.playerNumber;
-			if(playerNumber == 1){
-				if(!dataObj.twoPlayerSettings.game.playerOneSecret){
-					dataObj.selectSecretActive = true;
-				}else{
-					if(dataObj.twoPlayerSettings.game.playerTwoSecret){
-						dataObj.gameStartedActive = true;
-						setAlert();
-					
-						//Checks if the last word is the winner
-						if(dataObj.twoPlayerSettings.guesses.playerOne.length > 0){
-							if(dataObj.twoPlayerSettings.guesses.playerOne[dataObj.twoPlayerSettings.guesses.playerOne.length-1].guess == dataObj.twoPlayerSettings.game.playerTwoSecret){
-								playerWins(dataObj.twoPlayerSettings.game.playerTwoSecret);
-							}	
-						}
-						if(dataObj.twoPlayerSettings.guesses.playerTwo.length > 0){
-							if(dataObj.twoPlayerSettings.guesses.playerTwo[dataObj.twoPlayerSettings.guesses.playerTwo.length-1].guess == dataObj.twoPlayerSettings.game.playerOneSecret){
-								playerLoses(dataObj.twoPlayerSettings.game.playerTwoSecret);
-							}
-						}
+			if(dataObj.gameSettingsActive){
+				if(playerNumber == 1){
+					if(!dataObj.twoPlayerSettings.game.playerOneSecret){
+						dataObj.selectSecretActive = true;
 					}else{
-						setAlert("waitingSecret");
-					}
-				}
-				dataObj.gameSettingsActive = false;
-			}
-
-			if(playerNumber == 2){
-				if(!dataObj.twoPlayerSettings.game.playerTwoSecret){
-					dataObj.selectSecretActive = true;
-				}else{
-					if(dataObj.twoPlayerSettings.game.playerOneSecret){
-						dataObj.gameStartedActive = true;
-						setAlert();
-
-						//Checks if the last word is the winner
-						if(dataObj.twoPlayerSettings.guesses.playerTwo > 0){
-							if(dataObj.twoPlayerSettings.guesses.playerTwo[dataObj.twoPlayerSettings.guesses.playerTwo.length-1].guess == dataObj.twoPlayerSettings.game.playerOneSecret){
-								playerWins(dataObj.twoPlayerSettings.game.playerOneSecret);
-							}	
-						}
-						if(dataObj.twoPlayerSettings.guesses.playerOne.length > 0){
-							if(dataObj.twoPlayerSettings.guesses.playerOne[dataObj.twoPlayerSettings.guesses.playerOne.length-1].guess == dataObj.twoPlayerSettings.game.playerTwoSecret){
-								playerLoses(dataObj.twoPlayerSettings.game.playerOneSecret);
+						if(dataObj.twoPlayerSettings.game.playerTwoSecret){
+							dataObj.gameStartedActive = true;
+							setAlert();
+						
+							//Checks if the last word is the winner
+							if(dataObj.twoPlayerSettings.guesses.playerOne.length > 0){
+								if(dataObj.twoPlayerSettings.guesses.playerOne[dataObj.twoPlayerSettings.guesses.playerOne.length-1].guess == dataObj.twoPlayerSettings.game.playerTwoSecret){
+									playerWins(dataObj.twoPlayerSettings.game.playerTwoSecret);
+								}	
 							}
+							if(dataObj.twoPlayerSettings.guesses.playerTwo.length > 0){
+								if(dataObj.twoPlayerSettings.guesses.playerTwo[dataObj.twoPlayerSettings.guesses.playerTwo.length-1].guess == dataObj.twoPlayerSettings.game.playerOneSecret){
+									playerLoses(dataObj.twoPlayerSettings.game.playerTwoSecret);
+								}
+							}
+						}else{
+							setAlert("waitingSecret");
 						}
-					}else{
-						setAlert("waitingSecret");
 					}
+					dataObj.gameSettingsActive = false;
 				}
-				dataObj.gameSettingsActive = false;
+
+				if(playerNumber == 2){
+					if(!dataObj.twoPlayerSettings.game.playerTwoSecret){
+						dataObj.selectSecretActive = true;
+					}else{
+						if(dataObj.twoPlayerSettings.game.playerOneSecret){
+							dataObj.gameStartedActive = true;
+							setAlert();
+
+							//Checks if the last word is the winner
+							if(dataObj.twoPlayerSettings.guesses.playerTwo > 0){
+								if(dataObj.twoPlayerSettings.guesses.playerTwo[dataObj.twoPlayerSettings.guesses.playerTwo.length-1].guess == dataObj.twoPlayerSettings.game.playerOneSecret){
+									playerWins(dataObj.twoPlayerSettings.game.playerOneSecret);
+								}	
+							}
+							if(dataObj.twoPlayerSettings.guesses.playerOne.length > 0){
+								if(dataObj.twoPlayerSettings.guesses.playerOne[dataObj.twoPlayerSettings.guesses.playerOne.length-1].guess == dataObj.twoPlayerSettings.game.playerTwoSecret){
+									playerLoses(dataObj.twoPlayerSettings.game.playerOneSecret);
+								}
+							}
+						}else{
+							setAlert("waitingSecret");
+						}
+					}
+					dataObj.gameSettingsActive = false;
+				}
 			}
 		}
 
@@ -235,12 +237,7 @@
 		function refreshSettings(){
 			$http.get('/gameStatus/'+gameId).then(function(response){
 				dataObj.twoPlayerSettings = response.data;
-				if(dataObj.selectSecretActive){
-					restoreStatus();
-				}else{
-					playerCheck();
-					setPlayersTurn();	
-				}
+				restoreStatus();
 				console.log(response);
 			});
 		}

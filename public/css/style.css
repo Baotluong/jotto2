@@ -40,6 +40,25 @@
 	font-size: 2em;
 }
 
+.track-glyph{
+	font-size: 1.5em;
+	margin-top: 6px;
+	margin-right: 10px;
+}
+
 .copy-group{
 	margin-bottom: 10px;
+}
+
+.page-header{
+	margin-bottom: 0px;
+	margin-top: 10px;
+	padding-bottom: 0px;
+}
+
+.icon-image{
+	max-width: auto;
+	max-height: 40px;
+	margin-right: 8px;
+	margin-top: -6px;
 }

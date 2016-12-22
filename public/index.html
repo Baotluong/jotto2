@@ -24,13 +24,13 @@
     <div ng-controller="gameCtrl as game">
     	<div class="row">
 	    	<div class="page-header col-md-8 col-md-offset-2">
-		    	<h1>JOTTO</h1>
+		    	<h1><img src="android-chrome-512x512.png" class="icon-image">JOTTO</h1>
 		    	<h4>Take your best guess.</h4>
 	    	</div>
 	    </div>
 	    <div class="row">
     		<div class="alertDiv col-md-8 col-md-offset-2" ng-show="game.gameStatus.alert">
-    			<h3>{{game.gameStatus.alert}}</h3>
+    			<h4>{{game.gameStatus.alert}}</h4>
     		</div>
     	</div>
     	<div class="row" ng-show="game.gameStatus.gameSettingsActive">
@@ -98,6 +98,7 @@
 	    	<div class="col-md-8 col-md-offset-2 well well-sm letter-box">
 	    		<div class="row">
 		    		<h4 class="col-xs-8">Track your letters</h4>
+					<a class="track-glyph pull-right" data-toggle="tooltip" data-placement="top" title="Track your letters here. The letters will change colors when you click on them. Use Green for letters you know are in the secret word and use red for letters you know that aren't."><span class="glyphicon glyphicon-info-sign"></span></a>
 		    		<label class="pull-right" ng-show="guess.gameStatus.allowNonUnique||guess.gameStatus.twoPlayerSettings.allowNonUnique">
 		    			<h5 data-toggle="tooltip" title="Your guesses may include duplicate letters.">
 		    				<span class="glyphicon glyphicon glyphicon-ok-circle"></span>Duplicate Letters Allowed

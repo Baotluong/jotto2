@@ -72,10 +72,27 @@
 			}
 
 			function alreadyGuessed(guess){
-				for(var i=0; i<gameStatus.onePlayerGuesses.length; i++){
-					if(gameStatus.onePlayerGuesses[i].guess == guess){
-						return true;
-					}
+				//single player check
+				if(!gameStatus.playerNumber){
+					for(var i=0; i<gameStatus.onePlayerGuesses.length; i++){
+						if(gameStatus.onePlayerGuesses[i].guess == guess){
+							return true;
+						}
+					}	
+				}
+				//two player check
+				if(gameStatus.playerNumber == 1){
+					for(var i=0; i<gameStatus.twoPlayerSettings.guesses.playerTwo.length; i++){
+						if(gameStatus.twoPlayerSettings.guesses.playerTwo[i].guess == guess){
+							return true;
+						}	
+					}	
+				}else{
+					for(var i=0; i<gameStatus.twoPlayerSettings.guesses.playerOne.length; i++){
+						if(gameStatus.twoPlayerSettings.guesses.playerOne[i].guess == guess){
+							return true;
+						}	
+					}	
 				}
 				return false;
 			}			
