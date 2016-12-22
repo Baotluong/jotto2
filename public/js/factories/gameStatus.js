@@ -209,6 +209,8 @@
 			}
 		}
 
+
+		//TODONEXT: THIS IS NOT WORKING RIGHT NOW FIX. ALSO ADD A LINK THAT REDIRECTS TO HOME.
 		if(gameId){
 			$http.get('/gameStatus/'+gameId)
 				.then(function(response){
