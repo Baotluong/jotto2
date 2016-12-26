@@ -4,12 +4,12 @@
 		.module("jotto")
 		.controller("gameCtrl", gameCtrl);
 
-	gameCtrl.$inject = ['fiveWords', 'gameStatus', '$http', '$location'];
+	gameCtrl.$inject = ['dictionary', 'gameStatus', '$http', '$location'];
 		
-	function gameCtrl(fiveWords, gameStatus, $http, $location){
+	function gameCtrl(dictionary, gameStatus, $http, $location){
 		var vm = this;
 		vm.gameStatus = gameStatus;
-		vm.fiveWords = fiveWords;
+		vm.dictionary = dictionary;
 		vm.onePlayerStart = onePlayerStart;
 		vm.twoPlayerStart = twoPlayerStart;
 		vm.changeAllowNonUnique = changeAllowNonUnique;
@@ -53,9 +53,9 @@
 				vm.formSecretResponse = lettersOnly;
 			}else if(secret.length !== 5){
 				vm.formSecretResponse = mustBeFive;
-			}else if(fiveWords.checkForUnique(secret) == false){
+			}else if(dictionary.checkForUnique(secret) == false){
 				vm.formSecretResponse = notUnique;
-			}else if(!fiveWords.rawArray.includes(secret)){
+			}else if(!dictionary.rawArray.includes(secret)){
 				vm.formSecretResponse = notWord;
 			}else{
 				if(gameStatus.playerNumber == 1){

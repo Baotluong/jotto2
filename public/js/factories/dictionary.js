@@ -2,9 +2,9 @@
 
 	angular
 		.module("jotto")
-		.factory("fiveWords", fiveWords);
+		.factory("dictionary", dictionary);
 
-	function fiveWords(){
+	function dictionary(){
 		
 		dataObj = {
 

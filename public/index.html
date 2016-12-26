@@ -24,14 +24,14 @@
     <div ng-controller="gameCtrl as game">
     	<div class="row">
 	    	<div class="page-header col-md-8 col-md-offset-2">
-		    	<h1 ng-click="game.gameStatus.goHome()"><img src="android-chrome-512x512.png" class="icon-image">JOTTO</h1>
+		    	<a href="http://jottoguess.herokuapp.com" class="logo"><h1><img src="android-chrome-512x512.png" class="icon-image">JOTTO</h1></a>
 		    	<h4>Take your best guess.</h4>
 	    	</div>
 	    </div>
 	    <div class="row">
     		<div class="alertDiv col-md-8 col-md-offset-2" ng-show="game.gameStatus.alert">
     			<h4>{{game.gameStatus.alert}}</h4>
-    			<a ng-click="game.gameStatus.goHome()" ng-show="game.gameStatus.alertGoHome">Click here to start new game now.</a>
+    			<a href="http://jottoguess.herokuapp.com" ng-show="game.gameStatus.alertGoHome">Click here to start new game now.</a>
     		</div>
     	</div>
     	<div class="row" ng-show="game.gameStatus.activeState == 'settings'">
@@ -172,7 +172,7 @@
     <script src="js/app.js"></script>
     <script src="js/controllers/game.js"></script>
     <script src="js/controllers/guess.js"></script>
-    <script src="js/factories/fiveWords.js"></script>
+    <script src="js/factories/dictionary.js"></script>
     <script src="js/factories/gameStatus.js"></script>
 
     <script>

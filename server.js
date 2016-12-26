@@ -1,4 +1,3 @@
-console.log("starting")
 process.env.PWD = process.cwd();
 
 var express = require('express');
@@ -8,7 +7,6 @@ var db = mongojs('test:test@ds139448.mlab.com:39448/heroku_1v6nd9tz', ['jotto2']
 var bodyParser = require('body-parser');
 
 //app.use(express.static(__dirname + "/public"));
-console.log("before .use");
 app.use(express.static(process.env.PWD+'/public'));
 
 app.use(bodyParser.json());
@@ -16,6 +14,10 @@ app.use(bodyParser.json());
 app.listen(process.env.PORT || 3000, function(){
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
+
+app.get('/', function (req, res) {
+  	res.render('index');
+})
 
 app.post('/newgame', function (req, res) {
 		
@@ -27,7 +29,6 @@ app.post('/newgame', function (req, res) {
 
 app.get('/gameStatus/:id', function (req, res) {
 	var id = req.params.id;
-	console.log(id);
 
 	db.jotto2.findOne({_id: mongojs.ObjectId(id)}, function(err, docs){
 		res.json(docs);

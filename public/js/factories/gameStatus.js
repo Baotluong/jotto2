@@ -26,12 +26,6 @@
 			allowNonUnique: false
 		};
 
-		function goHome(){
-			$location.search('id', null);
-			//TODO: FIX THIS. NEEDS TO CLEAR THE WHOLE URL.
-			location.reload();
-		}
-
 		function updateGameStatus(){
 			$http.put('/update', dataObj.twoPlayerSettings).then(function(response){
 	    		setPlayersTurn();
@@ -39,7 +33,7 @@
 		}
 
 		function setPlayersTurn(){
-			if(dataObj.activeState = "started" && !dataObj.playerWin && !dataObj.playerLost){
+			if(dataObj.activeState == "started" && !dataObj.playerWin && !dataObj.playerLost){
 				if((dataObj.playerNumber == dataObj.twoPlayerSettings.game.firstPlayer && dataObj.twoPlayerSettings.guesses.playerOne.length == dataObj.twoPlayerSettings.guesses.playerTwo.length) ||
 				   (dataObj.playerNumber !== dataObj.twoPlayerSettings.game.firstPlayer && dataObj.twoPlayerSettings.guesses.playerOne.length !== dataObj.twoPlayerSettings.guesses.playerTwo.length)){
 					dataObj.notYourTurn = false;
@@ -97,7 +91,7 @@
 		}
 
 		function setActiveState(){
-			if(dataObj.activeState != 'started'){
+			if(dataObj.activeState !== 'started'){
 				if(dataObj.playerNumber == 1){
 					if(!dataObj.twoPlayerSettings.game.playerOneSecret){
 						dataObj.activeState = 'secret';
@@ -209,8 +203,7 @@
 					}
 					break;
 				case "errorBadId":
-					dataObj.alert = "Invalid Game ID. Redirecting Home in 10 seconds...";
-					$interval(goHome, 10000);
+					dataObj.alert = "Invalid Game ID.";
 					dataObj.alertGoHome = true;
 					dataObj.activeState = null;
 					dataObj.gameSettingsActive = false;
@@ -284,7 +277,6 @@
 			playerLost: playerLost,
 			alert: alert,
 			setAlert: setAlert,
-			goHome: goHome,
 			alertGoHome: alertGoHome
 		}
 

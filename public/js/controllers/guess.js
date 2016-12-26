@@ -4,13 +4,13 @@
 		.module("jotto")
 		.controller("guessCtrl", guessCtrl);
 
-	guessCtrl.$inject = ['fiveWords', 'gameStatus', '$http'];
+	guessCtrl.$inject = ['dictionary', 'gameStatus', '$http'];
 
-	function guessCtrl(fiveWords, gameStatus, $http){
+	function guessCtrl(dictionary, gameStatus, $http){
 		var vm = this;
 		vm.alphabet = [];
 		vm.changeAlphabetClass = changeAlphabetClass;
-		vm.fiveWords = fiveWords;
+		vm.dictionary = dictionary;
 		vm.gameStatus = gameStatus;
 		vm.formGuess = "";
 		vm.formGuessResponse = "";
@@ -18,7 +18,7 @@
 
 		var defaultAlphabetStatus = "btn-info";
 
-		console.log("One Player Secret Word is "+vm.fiveWords.secretWord);
+		console.log("One Player Secret Word is "+vm.dictionary.secretWord);
 
 		function fillAlphabetArray(){
 			for(var i = 0; i < 26; i++){
@@ -57,9 +57,9 @@
 				vm.formGuessResponse = lettersOnly;
 			}else if(guess.length !== 5){
 				vm.formGuessResponse = mustBeFive;
-			}else if(fiveWords.checkForUnique(guess) == false && gameStatus.allowNonUnique == false){
+			}else if(dictionary.checkForUnique(guess) == false && gameStatus.allowNonUnique == false){
 				vm.formGuessResponse = notUnique;
-			}else if(!fiveWords.rawArray.includes(guess)){
+			}else if(!dictionary.rawArray.includes(guess)){
 				vm.formGuessResponse = notWord;
 			}else if(alreadyGuessed(guess)){
 				vm.formGuessResponse = alreadyGuess;
@@ -116,7 +116,7 @@
 		}
 
 		function checkAgainstSecret(guess){
-			var secret = fiveWords.secretWord;
+			var secret = dictionary.secretWord;
 			var numCorrect = 0;
 
 			numCorrect = checkNumCorrect(guess, secret);

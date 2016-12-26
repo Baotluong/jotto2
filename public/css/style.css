@@ -62,3 +62,8 @@
 	margin-right: 8px;
 	margin-top: -6px;
 }
+
+a.logo, a.logo:link, a.logo:visited, a.logo:hover, a.logo:focus, a.logo:active{
+  color:black;
+  text-decoration:none;
+}
