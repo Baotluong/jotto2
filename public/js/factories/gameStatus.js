@@ -10,9 +10,6 @@
 
 		var allowNonUnique = false;
 		var activeState = "settings";
-		var gameSettingsActive = true;
-		var gameStartedActive = false;
-		var selectSecretActive = false;
 		var notYourTurn = true;
 		var firstPlayer = Math.floor((Math.random() * 2) + 1);
 		var playerNumber = "";
@@ -31,6 +28,7 @@
 
 		function goHome(){
 			$location.search('id', null);
+			//TODO: FIX THIS. NEEDS TO CLEAR THE WHOLE URL.
 			location.reload();
 		}
 
@@ -41,7 +39,7 @@
 		}
 
 		function setPlayersTurn(){
-			if(dataObj.gameStartedActive){
+			if(dataObj.activeState = "started" && !dataObj.playerWin && !dataObj.playerLost){
 				if((dataObj.playerNumber == dataObj.twoPlayerSettings.game.firstPlayer && dataObj.twoPlayerSettings.guesses.playerOne.length == dataObj.twoPlayerSettings.guesses.playerTwo.length) ||
 				   (dataObj.playerNumber !== dataObj.twoPlayerSettings.game.firstPlayer && dataObj.twoPlayerSettings.guesses.playerOne.length !== dataObj.twoPlayerSettings.guesses.playerTwo.length)){
 					dataObj.notYourTurn = false;
@@ -76,67 +74,66 @@
 			}
 		}
 
-		function restoreStatus(){
-			playerCheck();
-			setPlayersTurn();
-
-			if(!dataObj.gameStartedActive){
-				if(dataObj.playerNumber == 1){
-					if(!dataObj.twoPlayerSettings.game.playerOneSecret){
-						dataObj.selectSecretActive = true;
+		//Checks if the last word is the winner
+		function checkWinner(){
+			if(dataObj.twoPlayerSettings.guesses.playerOne.length > 0){
+				if(dataObj.twoPlayerSettings.guesses.playerOne[dataObj.twoPlayerSettings.guesses.playerOne.length-1].guess == dataObj.twoPlayerSettings.game.playerTwoSecret){
+					if(dataObj.playerNumber == 1){
+						playerWins(dataObj.twoPlayerSettings.game.playerTwoSecret);
 					}else{
-						if(dataObj.twoPlayerSettings.game.playerTwoSecret){
-							dataObj.gameStartedActive = true;
-							setAlert();
-						
-							//Checks if the last word is the winner
-							if(dataObj.twoPlayerSettings.guesses.playerOne.length > 0){
-								if(dataObj.twoPlayerSettings.guesses.playerOne[dataObj.twoPlayerSettings.guesses.playerOne.length-1].guess == dataObj.twoPlayerSettings.game.playerTwoSecret){
-									playerWins(dataObj.twoPlayerSettings.game.playerTwoSecret);
-								}	
-							}
-							if(dataObj.twoPlayerSettings.guesses.playerTwo.length > 0){
-								if(dataObj.twoPlayerSettings.guesses.playerTwo[dataObj.twoPlayerSettings.guesses.playerTwo.length-1].guess == dataObj.twoPlayerSettings.game.playerOneSecret){
-									playerLoses(dataObj.twoPlayerSettings.game.playerTwoSecret);
-								}
-							}
-						}else{
-							setAlert("waitingSecret");
-						}
+						playerLoses(dataObj.twoPlayerSettings.game.playerTwoSecret);
 					}
-					dataObj.gameSettingsActive = false;
-				}
-
-				if(dataObj.playerNumber == 2){
-					if(!dataObj.twoPlayerSettings.game.playerTwoSecret){
-						dataObj.selectSecretActive = true;
+				}	
+			}
+			if(dataObj.twoPlayerSettings.guesses.playerTwo.length > 0){
+				if(dataObj.twoPlayerSettings.guesses.playerTwo[dataObj.twoPlayerSettings.guesses.playerTwo.length-1].guess == dataObj.twoPlayerSettings.game.playerOneSecret){
+					if(dataObj.playerNumber == 2){
+						playerWins(dataObj.twoPlayerSettings.game.playerTwoSecret);
 					}else{
-						if(dataObj.twoPlayerSettings.game.playerOneSecret){
-							dataObj.gameStartedActive = true;
-							setAlert();
-
-							//Checks if the last word is the winner
-							if(dataObj.twoPlayerSettings.guesses.playerTwo > 0){
-								if(dataObj.twoPlayerSettings.guesses.playerTwo[dataObj.twoPlayerSettings.guesses.playerTwo.length-1].guess == dataObj.twoPlayerSettings.game.playerOneSecret){
-									playerWins(dataObj.twoPlayerSettings.game.playerOneSecret);
-								}	
-							}
-							if(dataObj.twoPlayerSettings.guesses.playerOne.length > 0){
-								if(dataObj.twoPlayerSettings.guesses.playerOne[dataObj.twoPlayerSettings.guesses.playerOne.length-1].guess == dataObj.twoPlayerSettings.game.playerTwoSecret){
-									playerLoses(dataObj.twoPlayerSettings.game.playerOneSecret);
-								}
-							}
-						}else{
-							setAlert("waitingSecret");
-						}
+						playerLoses(dataObj.twoPlayerSettings.game.playerTwoSecret);
 					}
-					dataObj.gameSettingsActive = false;
 				}
 			}
 		}
 
+		function setActiveState(){
+			if(dataObj.activeState != 'started'){
+				if(dataObj.playerNumber == 1){
+					if(!dataObj.twoPlayerSettings.game.playerOneSecret){
+						dataObj.activeState = 'secret';
+					}else{
+						if(dataObj.twoPlayerSettings.game.playerTwoSecret){
+							dataObj.activeState = 'started';
+						}else{
+							setAlert("waitingSecret");
+						}
+					}
+				}
+
+				if(dataObj.playerNumber == 2){
+					if(!dataObj.twoPlayerSettings.game.playerTwoSecret){
+						dataObj.activeState = 'secret';
+					}else{
+						if(dataObj.twoPlayerSettings.game.playerOneSecret){
+							dataObj.activeState = 'started';
+						}else{
+							setAlert("waitingSecret");
+						}
+					}
+				}
+			}
+		}
+
+		function restoreStatus(){
+			playerCheck();
+			setPlayersTurn();
+			setActiveState();
+			checkWinner();
+		}
+
 		function playerLoses(oppSecret){
 			dataObj.playerLost = oppSecret;
+			setAlert("playerLoses");
 		}
 
 		function playerWins(secret, guesses){
@@ -182,12 +179,18 @@
 			}
 
 			dataObj.playerWin = [secret, tries];
-			console.log(dataObj.playerWin);
+			setAlert("playerWin");
 		}
 
 		function setAlert(message){
 			var oppGuess = "";
 			switch(message){
+				case "playerWin":
+					dataObj.alert = "Congratulations! "+dataObj.playerWin[0].toUpperCase()+" is the correct guess! It took you "+dataObj.playerWin[1]+" tries. "+dataObj.playerWinResponse+".";
+					break;
+				case "playerLoses":
+					dataObj.alert = "Oh no, your opponent has guessed your secret! You almost had them. Their secret was "+dataObj.playerLost.toUpperCase()+".";
+					break;
 				case "waitingSecret":
 					dataObj.alert = "Waiting on opponent to select a Secret";
 					break;
@@ -209,14 +212,12 @@
 					dataObj.alert = "Invalid Game ID. Redirecting Home in 10 seconds...";
 					$interval(goHome, 10000);
 					dataObj.alertGoHome = true;
-					//TODO CHANGE ALL ACTIVE STATES TO ONE STATE
 					dataObj.activeState = null;
 					dataObj.gameSettingsActive = false;
 					break;
 				case "errorGameFull":
 					dataObj.alert = "This game is full!"
 					dataObj.alertGoHome = true;
-					//TODO CHANGE ALL ACTIVE STATES TO ONE STATE
 					dataObj.activeState = null;
 					dataObj.gameSettingsActive = false;
 					break;
@@ -271,10 +272,7 @@
 		dataObj = {
 			twoPlayerSettings: twoPlayerSettings,
 			activeState: activeState,
-			gameSettingsActive: gameSettingsActive,
-			gameStartedActive: gameStartedActive,
 			allowNonUnique: allowNonUnique,
-			selectSecretActive: selectSecretActive,
 			notYourTurn: notYourTurn,
 			playerNumber: playerNumber,
 			updateGameStatus: updateGameStatus,
@@ -294,3 +292,5 @@
 	}
 
 })();
+
+//TODO: convert the states into one variable.

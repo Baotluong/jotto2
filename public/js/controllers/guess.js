@@ -30,12 +30,15 @@
 
 		function changeAlphabetClass(index){
 			var clear = "btn-info";
-			var potential = "btn-success";
+			var potential = "btn-warning";
+			var success = "btn-success";
 			var eliminated = "btn-danger";
 
 			if(vm.alphabet[index].status == clear){
 				vm.alphabet[index].status = potential;
 			}else if(vm.alphabet[index].status == potential){
+				vm.alphabet[index].status = success;
+			}else if(vm.alphabet[index].status == success){
 				vm.alphabet[index].status = eliminated;
 			}else if(vm.alphabet[index].status == eliminated){
 				vm.alphabet[index].status = clear;

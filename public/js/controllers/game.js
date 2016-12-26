@@ -20,8 +20,7 @@
 		vm.clipBoard = clipBoard;
 
 		function onePlayerStart(){
-			gameStatus.gameStartedActive = true;
-			gameStatus.gameSettingsActive = false;
+			gameStatus.activeState = "started";
 			gameStatus.notYourTurn = false;
 		};
 
@@ -34,8 +33,7 @@
 	    		$location.search('id', gameStatus.twoPlayerSettings._id);
 	    		vm.docURL = document.URL+"#?id="+gameStatus.twoPlayerSettings._id;
 	    		gameStatus.updateGameStatus();
-    			gameStatus.gameSettingsActive = false;
-		    	gameStatus.selectSecretActive = true;
+	    		gameStatus.activeState = "secret";
 	    	});
 		};
 
@@ -66,7 +64,7 @@
 					gameStatus.twoPlayerSettings.game.playerTwoSecret = secret;
 				}
 				gameStatus.updateGameStatus();
-				gameStatus.selectSecretActive = false;
+				gameStatus.activeState = null;
 				gameStatus.setPlayersTurn();
 				gameStatus.setAlert("waitingSecret");
 			}
