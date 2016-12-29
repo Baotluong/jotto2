@@ -75,14 +75,14 @@
 					if(dataObj.playerNumber == 1){
 						playerWins(dataObj.twoPlayerSettings.game.playerTwoSecret);
 					}else{
-						playerLoses(dataObj.twoPlayerSettings.game.playerTwoSecret);
+						playerLoses(dataObj.twoPlayerSettings.game.playerOneSecret);
 					}
 				}	
 			}
 			if(dataObj.twoPlayerSettings.guesses.playerTwo.length > 0){
 				if(dataObj.twoPlayerSettings.guesses.playerTwo[dataObj.twoPlayerSettings.guesses.playerTwo.length-1].guess == dataObj.twoPlayerSettings.game.playerOneSecret){
 					if(dataObj.playerNumber == 2){
-						playerWins(dataObj.twoPlayerSettings.game.playerTwoSecret);
+						playerWins(dataObj.twoPlayerSettings.game.playerOneSecret);
 					}else{
 						playerLoses(dataObj.twoPlayerSettings.game.playerTwoSecret);
 					}
@@ -177,10 +177,12 @@
 			var oppGuess = "";
 			switch(message){
 				case "playerWin":
-					dataObj.alert = "Congratulations! "+dataObj.playerWin[0].toUpperCase()+" is the correct guess! It took you "+dataObj.playerWin[1]+" tries. "+dataObj.playerWinResponse+".";
+					dataObj.alert = "Congratulations! "+dataObj.playerWin[0].toUpperCase()+" is the correct guess! It took you "+dataObj.playerWin[1]+" tries. "+dataObj.playerWinResponse;
+					dataObj.alertGoHome = true;
 					break;
 				case "playerLoses":
 					dataObj.alert = "Oh no, your opponent has guessed your secret! You almost had them. Their secret was "+dataObj.playerLost.toUpperCase()+".";
+					dataObj.alertGoHome = true;
 					break;
 				case "waitingSecret":
 					dataObj.alert = "Waiting on opponent to select a Secret";
