@@ -1,9 +1,13 @@
 body{
-	background-color:  #e6f3ff;
+	background-color: #F0F8FF;
 }
+
+.ng-cloak { display:none; }
+
 ​.well{
     background-color: green;
 }
+
 .row{
 	margin-left: 0px;
 	margin-right: 0px;

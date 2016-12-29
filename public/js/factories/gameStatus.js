@@ -136,12 +136,9 @@
 	 			tries = guesses;
 			}else{
 				if(dataObj.playerNumber == 1){
-					tries = Math.floor(dataObj.twoPlayerSettings.guesses.playerOne.length/2);	
+					tries = dataObj.twoPlayerSettings.guesses.playerOne.length;
 				}else{
-					tries = Math.floor(dataObj.twoPlayerSettings.guesses.playerTwo.length/2);	
-				}
-				if(dataObj.playerNumber = dataObj.twoPlayerSettings.game.firstPlayer){
-					tries++;
+					tries = dataObj.twoPlayerSettings.guesses.playerTwo.length;
 				}
 			}
 
@@ -224,8 +221,9 @@
 				.then(function(response){
 					dataObj.twoPlayerSettings = response.data;
 					//Sets 2nd player cookie
+					console.log(dataObj);
 					if(!dataObj.twoPlayerSettings.game.playerTwo && !dataObj.playerNumber){
-						console.log("moo")
+						console.log('bad')
 						dataObj.twoPlayerSettings.game.playerTwo = dataObj.twoPlayerSettings._id+" "+2;
 						document.cookie = dataObj.twoPlayerSettings._id+" "+2;
 						dataObj.updateGameStatus();

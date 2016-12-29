@@ -29,7 +29,7 @@
 	    	</div>
 	    </div>
 	    <div class="row">
-    		<div class="alertDiv col-md-8 col-md-offset-2" ng-show="game.gameStatus.alert">
+    		<div class="alertDiv col-md-8 col-md-offset-2 ng-cloak" ng-show="game.gameStatus.alert">
     			<h4>{{game.gameStatus.alert}}</h4>
     			<a href="http://jottoguess.herokuapp.com" ng-show="game.gameStatus.alertGoHome">Click here to start new game now.</a>
     		</div>
@@ -48,7 +48,7 @@
 	    		</div>
     		</div>
     	</div>
-    	<div class="col-md-8 col-md-offset-2" 
+    	<div class="col-md-8 col-md-offset-2 ng-cloak" 
     		 ng-if="game.gameStatus.twoPlayerSettings.game.playerOne && !game.gameStatus.twoPlayerSettings.game.playerTwo">
     		<h4>Send this link to your opponent to start a game.</h4>
     		<div class="input-group copy-group">
@@ -58,7 +58,7 @@
 			  </span>
 			</div>
     	</div>
-	    <div class="row" ng-show="game.gameStatus.activeState == 'secret'">
+	    <div class="row ng-cloak" ng-show="game.gameStatus.activeState == 'secret'">
 	    	<div class="well well-sm col-md-8 col-md-offset-2">
 	    		<div class="row">
 		    		<form data-toggle="tooltip" data-placement="bottom" title="Choose your secret word. It must be a 5-letter word with no duplicate letters. Your opponent will try to guess it. Don't make it too easy, but don't pick a word they wouldn't know. That's no fun either." name="game.secretForm" class="form" ng-submit="game.formSecretSubmit()">
@@ -72,7 +72,7 @@
     </div>
 
     <div ng-controller="guessCtrl as guess" ng-show="guess.gameStatus.activeState == 'started'">
-	    <div class="row" ng-show="guess.gameStatus.playerNumber == 2">
+	    <div class="row ng-cloak" ng-show="guess.gameStatus.playerNumber == 2">
 	    	<div class="col-md-8 col-md-offset-2">
 	    		<div class="col-xs-4 col-sm-3 col-md-2" class="player-guess"
 	    			 ng-repeat="playerGuess in guess.gameStatus.twoPlayerSettings.guesses.playerOne">
@@ -81,7 +81,7 @@
 	    	</div>
     	</div>
 
-    	<div class="row" ng-show="guess.gameStatus.playerNumber == 1">
+    	<div class="row ng-cloak" ng-show="guess.gameStatus.playerNumber == 1">
 	    	<div class="col-md-8 col-md-offset-2">
 	    		<div class="col-xs-4 col-sm-3 col-md-2" class="player-guess"
 	    			 ng-repeat="playerGuess in guess.gameStatus.twoPlayerSettings.guesses.playerTwo">
@@ -90,7 +90,7 @@
 	    	</div>
     	</div>
 
-	    <div class="row">
+	    <div class="row ng-cloak">
 	    	<div class="col-md-8 col-md-offset-2 well well-sm letter-box">
 	    		<div class="row">
 		    		<h4 class="col-xs-8">Track your letters</h4>
@@ -123,7 +123,7 @@
 	    		</div>
 	    	</div>
 	    </div>
-    	<div class="row" ng-hide="guess.gameStatus.twoPlayerSettings.game.playerOne">
+    	<div class="row ng-cloak" ng-hide="guess.gameStatus.twoPlayerSettings.game.playerOne">
 	    	<div class="col-md-8 col-md-offset-2">
 	    		<div class="col-xs-4 col-sm-3 col-md-2" class="player-guess"
 	    			 ng-repeat="playerGuess in guess.gameStatus.onePlayerGuesses">
@@ -132,7 +132,7 @@
 	    	</div>
     	</div>
 
-    	<div class="row" ng-show="guess.gameStatus.playerNumber == 1">
+    	<div class="row ng-cloak" ng-show="guess.gameStatus.playerNumber == 1">
 	    	<div class="col-md-8 col-md-offset-2">
 	    		<div class="col-xs-4 col-sm-3 col-md-2" class="player-guess"
 	    			 ng-repeat="playerGuess in guess.gameStatus.twoPlayerSettings.guesses.playerOne">
@@ -141,7 +141,7 @@
 	    	</div>
     	</div>
 
-    	<div class="row" ng-show="guess.gameStatus.playerNumber == 2">
+    	<div class="row ng-cloak" ng-show="guess.gameStatus.playerNumber == 2">
 	    	<div class="col-md-8 col-md-offset-2">
 	    		<div class="col-xs-4 col-sm-3 col-md-2" class="player-guess"
 	    			 ng-repeat="playerGuess in guess.gameStatus.twoPlayerSettings.guesses.playerTwo">
@@ -150,7 +150,7 @@
 	    	</div>
     	</div>
 
-    	<div class="input-form row">
+    	<div class="input-form row ng-cloak">
 	    	<div class="col-md-8 col-md-offset-2 well well-sm" ng-hide="guess.gameStatus.playerWin || guess.gameStatus.playerLost">
 	    		<div class="row">
 		    		<form name="guess.guessForm" class="form" ng-submit="guess.formGuessSubmit()">

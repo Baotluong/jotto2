@@ -57,14 +57,13 @@
 				vm.formGuessResponse = lettersOnly;
 			}else if(guess.length !== 5){
 				vm.formGuessResponse = mustBeFive;
-			}else if(dictionary.checkForUnique(guess) == false && gameStatus.allowNonUnique == false){
+			}else if(dictionary.checkForUnique(guess) == false && gameStatus.twoPlayerSettings.allowNonUnique == false){
 				vm.formGuessResponse = notUnique;
 			}else if(!dictionary.rawArray.includes(guess)){
 				vm.formGuessResponse = notWord;
 			}else if(alreadyGuessed(guess)){
 				vm.formGuessResponse = alreadyGuess;
 			}else{
-				console.log(gameStatus.twoPlayerSettings.game.playerOne);
 				if(gameStatus.twoPlayerSettings.game.playerOne){
 					checkAgainstSecretTwoPlayers(guess);
 				}else{
@@ -76,7 +75,6 @@
 
 			function alreadyGuessed(guess){
 				//single player check
-				console.log(gameStatus.playerNumber);
 				if(!gameStatus.playerNumber){
 					for(var i=0; i<gameStatus.onePlayerGuesses.length; i++){
 						if(gameStatus.onePlayerGuesses[i].guess == guess){
@@ -141,6 +139,8 @@
 				numCorrect = checkNumCorrect(guess, secret);
 				gameStatus.twoPlayerSettings.guesses.playerTwo.push({"guess": guess, "numCorrect":numCorrect});
 			}
+			//turns off input form immediately in case of server lag
+			gameStatus.notYourTurn = true;
 			gameStatus.setAlert("oppGuessing");
 			gameStatus.updateGameStatus();
 
