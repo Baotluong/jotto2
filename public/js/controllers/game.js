@@ -31,7 +31,8 @@
 	    		gameStatus.playerNumber = 1;
 	    		gameStatus.twoPlayerSettings.game.playerOne = gameStatus.twoPlayerSettings._id+" "+1;
 	    		$location.search('id', gameStatus.twoPlayerSettings._id);
-	    		vm.docURL = document.URL+"#?id="+gameStatus.twoPlayerSettings._id;
+	    		vm.docURL = vm.docURL.replace('#','');
+	    		vm.docURL = vm.docURL+"#?id="+gameStatus.twoPlayerSettings._id;
 	    		gameStatus.updateGameStatus();
 	    		gameStatus.activeState = "secret";
 	    	});

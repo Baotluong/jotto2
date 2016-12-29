@@ -175,6 +175,16 @@
 
 		function setAlert(message){
 			var oppGuess = "";
+			var count = 10;
+			function countdown(){
+				//when goHome() was called in this function the $location.search('id',null) does not work so had to set a seperate command to goHome.
+				if (count>0) {
+					document.getElementById("countdown").innerHTML = count+"...";
+					setTimeout(countdown, 1000);
+					count--;
+				}
+			}
+
 			switch(message){
 				case "playerWin":
 					dataObj.alert = "Congratulations! "+dataObj.playerWin[0].toUpperCase()+" is the correct guess! It took you "+dataObj.playerWin[1]+" tries. "+dataObj.playerWinResponse;
@@ -202,13 +212,17 @@
 					}
 					break;
 				case "errorBadId":
-					dataObj.alert = "Invalid Game ID.";
+					dataObj.alert = "Invalid Game ID. Redirecting home in ";
+					countdown();
+					$interval(goHome, 10250);
 					dataObj.alertGoHome = true;
 					dataObj.activeState = null;
 					dataObj.gameSettingsActive = false;
 					break;
 				case "errorGameFull":
-					dataObj.alert = "This game is full!"
+					dataObj.alert = "This game is full! Redirecting home in "
+					countdown();
+					$interval(goHome, 10000);
 					dataObj.alertGoHome = true;
 					dataObj.activeState = null;
 					dataObj.gameSettingsActive = false;
@@ -216,6 +230,13 @@
 				default:
 					dataObj.alert = "";
 			}
+
+
+		}
+
+		function goHome(){
+			$location.search('id',null);
+			location.reload();
 		}
 
 		if($location.search().id){
@@ -225,7 +246,6 @@
 					//Sets 2nd player cookie
 					console.log(dataObj);
 					if(!dataObj.twoPlayerSettings.game.playerTwo && !dataObj.playerNumber){
-						console.log('bad')
 						dataObj.twoPlayerSettings.game.playerTwo = dataObj.twoPlayerSettings._id+" "+2;
 						document.cookie = dataObj.twoPlayerSettings._id+" "+2;
 						dataObj.updateGameStatus();
@@ -277,7 +297,8 @@
 			playerLost: playerLost,
 			alert: alert,
 			setAlert: setAlert,
-			alertGoHome: alertGoHome
+			alertGoHome: alertGoHome,
+			goHome: goHome
 		}
 
 		return dataObj;

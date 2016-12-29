@@ -1,11 +1,11 @@
 body{
-	background-color: #F0F8FF;
+	background-color: rgba(249, 251, 253, 1);
 }
 
 .ng-cloak { display:none; }
 
-​.well{
-    background-color: green;
+.well {
+	background: rgba(210, 215, 255, 0.36);
 }
 
 .row{

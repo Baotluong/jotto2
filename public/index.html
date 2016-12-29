@@ -24,14 +24,14 @@
     <div ng-controller="gameCtrl as game">
     	<div class="row">
 	    	<div class="page-header col-md-8 col-md-offset-2">
-		    	<a href="http://jottoguess.herokuapp.com" class="logo"><h1><img src="android-chrome-512x512.png" class="icon-image">JOTTO</h1></a>
+		    	<h1 ng-click="game.gameStatus.goHome()"><img src="android-chrome-512x512.png" class="icon-image">JOTTO</h1>
 		    	<h4>Take your best guess.</h4>
 	    	</div>
 	    </div>
 	    <div class="row">
     		<div class="alertDiv col-md-8 col-md-offset-2 ng-cloak" ng-show="game.gameStatus.alert">
-    			<h4>{{game.gameStatus.alert}}</h4>
-    			<h4><a href="http://jottoguess.herokuapp.com" ng-show="game.gameStatus.alertGoHome">Start New Game</a></h4>
+    			<h4>{{game.gameStatus.alert}}<span id="countdown"></span></h4>
+    			<h4><button class="btn btn-default" ng-click="game.gameStatus.goHome()" ng-show="game.gameStatus.alertGoHome">Start New Game</a></h4>
     		</div>
     	</div>
     	<div class="row" ng-show="game.gameStatus.activeState == 'settings'">
@@ -52,10 +52,10 @@
     		 ng-if="game.gameStatus.twoPlayerSettings.game.playerOne && !game.gameStatus.twoPlayerSettings.game.playerTwo">
     		<h4>Send this link to your opponent to start a game.</h4>
     		<div class="input-group copy-group">
-			  <input type="text" class="form-control js-copytextarea" value="{{game.docURL}}">
-			  <span class="input-group-btn">
-			    <button class="btn btn-default" type="button" ng-click="game.clipBoard()"><span class="glyphicon glyphicon-copy"></span></button>
-			  </span>
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" ng-click="game.clipBoard()"><span class="glyphicon glyphicon-copy"></span></button>
+				</span>
+				<input type="text" class="form-control js-copytextarea" value="{{game.docURL}}">
 			</div>
     	</div>
 	    <div class="row ng-cloak" ng-show="game.gameStatus.activeState == 'secret'">
