@@ -46,11 +46,9 @@
 			}else if(vm.alphabet[index].status == potential){
 				vm.alphabet[index].status = success;
 				vm.shuffleLetters.push(convertLetter(index));
-				console.log(vm.shuffleLetters)
 			}else if(vm.alphabet[index].status == success){
 				vm.alphabet[index].status = eliminated;
 				vm.shuffleLetters.splice(vm.shuffleLetters.indexOf(convertLetter(index)), 1);
-				console.log(vm.shuffleLetters)
 			}else if(vm.alphabet[index].status == eliminated){
 				vm.alphabet[index].status = clear;
 			}

@@ -79,7 +79,7 @@
 				var successful = document.execCommand('copy');  
 				var msg = successful ? 'successful' : 'unsuccessful';  
 			} catch(err) {  
-			    console.log('Oops, unable to cut');  
+			    console.log('Oops, unable to copy');  
 			}  
 		}
 	}

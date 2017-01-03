@@ -52,11 +52,8 @@
 				if(cookie.split("; ").length > 1){
 					var getLastCookie = cookie.split("; ");
 					cookie = getLastCookie[getLastCookie.length-1];
-					console.log(cookie);
-					console.log(isNaN(cookie.slice(-1)));
 					if(isNaN(cookie.slice(-1))){
 						cookie = cookie.slice(0, -1);
-						console.log(cookie);
 					}
 				}
 			}
