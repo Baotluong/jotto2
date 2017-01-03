@@ -15,14 +15,21 @@
 		vm.formGuess = "";
 		vm.formGuessResponse = "";
 		vm.formGuessSubmit = formGuessSubmit;
+		vm.shuffleLetters = [];
+		vm.shuffleLettersClick = shuffleLettersClick;
 
 		var defaultAlphabetStatus = "btn-info";
 
 		console.log("One Player Secret Word is "+vm.dictionary.secretWord);
 
+		function convertLetter(index){
+			var letter = String.fromCharCode('A'.charCodeAt() + index);
+			return letter;
+		}
+
 		function fillAlphabetArray(){
 			for(var i = 0; i < 26; i++){
-				var letter = String.fromCharCode('A'.charCodeAt() + i);
+				var letter = convertLetter(i);
 				vm.alphabet[i] = {"letter": letter, "status": defaultAlphabetStatus};
 			}
 		}
@@ -38,11 +45,24 @@
 				vm.alphabet[index].status = potential;
 			}else if(vm.alphabet[index].status == potential){
 				vm.alphabet[index].status = success;
+				vm.shuffleLetters.push(convertLetter(index));
+				console.log(vm.shuffleLetters)
 			}else if(vm.alphabet[index].status == success){
 				vm.alphabet[index].status = eliminated;
+				vm.shuffleLetters.splice(vm.shuffleLetters.indexOf(convertLetter(index)), 1);
+				console.log(vm.shuffleLetters)
 			}else if(vm.alphabet[index].status == eliminated){
 				vm.alphabet[index].status = clear;
 			}
+		}
+
+		function shuffleLettersClick() {
+		    for (var i = vm.shuffleLetters.length - 1; i > 0; i--) {
+		        var j = Math.floor(Math.random() * (i + 1));
+		        var temp = vm.shuffleLetters[i];
+		        vm.shuffleLetters[i] = vm.shuffleLetters[j];
+		        vm.shuffleLetters[j] = temp;
+		    }
 		}
 
 		function formGuessSubmit(){

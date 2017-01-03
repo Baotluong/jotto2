@@ -39,7 +39,7 @@
     			Game Variant:
     			<div class="optionsbox">
 	  				<button class="btn btn-md btn-default pull-left player-buttons" ng-click="game.changeAllowNonUnique()" ng-class="{'btn-info': game.gameStatus.allowNonUnique}">Allow duplicate letters?</button>
-					<a class="info-glyph" data-toggle="tooltip" data-placement="right" title="Do you want to allow guesses to have duplicate letters? This variant tends to make the game easier, but also allows for additional layer of strategy."><span class="glyphicon glyphicon-info-sign"></span></a>
+					<a class="info-glyph" data-toggle="tooltip" data-placement="right" title="Do you want to allow guesses to have duplicate letters? This variant tends to make the game faster, but also allows for additional layer of strategy."><span class="glyphicon glyphicon-info-sign"></span></a>
 				</div>
 				Player Modes:
 				<div class="row">
@@ -89,7 +89,15 @@
 	    		</div>
 	    	</div>
     	</div>
-
+    	<div class="showHide col-xs-9">
+	    	Show/Hide Secret
+	    </div>
+	    <div class="SHSecret pull-right col-xs-3 ng-cloak" ng-if="guess.gameStatus.playerNumber==1" align="right">
+	    	{{guess.gameStatus.twoPlayerSettings.game.playerOneSecret}}
+	    </div>
+	     <div class="SHSecret pull-right col-xs-3 ng-cloak" ng-if="guess.gameStatus.playerNumber==2" align="right">
+	    	{{guess.gameStatus.twoPlayerSettings.game.playerTwoSecret}}
+	    </div>
 	    <div class="row ng-cloak">
 	    	<div class="col-md-8 col-md-offset-2 well well-sm letter-box">
 	    		<div class="row">
@@ -111,15 +119,21 @@
 		    		</button>
 	    		</div>
 	    		<div class="row button-row">
-	    			<div>
-			    		<button ng-repeat="letter in guess.alphabet"
-			    				ng-if="$index > 12" 
-			    				class="btn btn-sm letter-btn" 
-			    				ng-class="guess.alphabet[$index].status" 
-			    				ng-click="guess.changeAlphabetClass($index)">
-			    					{{guess.alphabet[$index].letter}}
-			    		</button>
-		    		</div>
+		    		<button ng-repeat="letter in guess.alphabet"
+		    				ng-if="$index > 12" 
+		    				class="btn btn-sm letter-btn" 
+		    				ng-class="guess.alphabet[$index].status" 
+		    				ng-click="guess.changeAlphabetClass($index)">
+		    					{{guess.alphabet[$index].letter}}
+		    		</button>
+	    		</div>
+	    		<div class="btn-group btn-group-sm shuffleLettersDiv" role="group">
+	    			<button type="button" 
+	    					class="btn btn-sm btn-default" 
+	    					ng-repeat="letter in guess.shuffleLetters" 
+	    					ng-click="guess.shuffleLettersClick()">
+	    						{{letter}}
+	    			</button>
 	    		</div>
 	    	</div>
 	    </div>
@@ -179,6 +193,10 @@
 		$(document).ready(function(){
 
 			$('[data-toggle="tooltip"]').tooltip();
+
+			$(".showHide").click(function(){
+		        $(".SHSecret").toggle();
+		    });
 
 		});
 	</script>

@@ -98,6 +98,7 @@
 					}else{
 						if(dataObj.twoPlayerSettings.game.playerTwoSecret){
 							dataObj.activeState = 'started';
+							setPlayersTurn();
 						}else{
 							setAlert("waitingSecret");
 						}
@@ -110,6 +111,7 @@
 					}else{
 						if(dataObj.twoPlayerSettings.game.playerOneSecret){
 							dataObj.activeState = 'started';
+							setPlayersTurn();
 						}else{
 							setAlert("waitingSecret");
 						}
@@ -244,7 +246,7 @@
 				.then(function(response){
 					dataObj.twoPlayerSettings = response.data;
 					//Sets 2nd player cookie
-					console.log(dataObj);
+					playerCheck();
 					if(!dataObj.twoPlayerSettings.game.playerTwo && !dataObj.playerNumber){
 						dataObj.twoPlayerSettings.game.playerTwo = dataObj.twoPlayerSettings._id+" "+2;
 						document.cookie = dataObj.twoPlayerSettings._id+" "+2;
@@ -266,7 +268,7 @@
 			$http.get('/gameStatus/'+$location.search().id).then(function(response){
 				dataObj.twoPlayerSettings = response.data;
 				restoreStatus();
-				console.log(response);
+				console.log("Refreshing");
 			});
 		}
 

@@ -77,3 +77,12 @@ a.logo, a.logo:link, a.logo:visited, a.logo:hover, a.logo:focus, a.logo:active{
   color:black;
   text-decoration:none;
 }
+
+.shuffleLettersDiv{
+	margin-top: 10px;
+}
+
+.showHide, .SHSecret{
+	color: grey;
+	font-size: 0.8em;
+}
