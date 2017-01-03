@@ -89,13 +89,15 @@
 	    		</div>
 	    	</div>
     	</div>
-    	<div class="showHide col-xs-9">
-	    	Show/Hide Secret
+    	<div class="showHide col-md-6 col-md-offset-2 col-xs-8 ng-cloak">
+    		<div ng-if="guess.gameStatus.playerNumber">
+	    		Show/Hide Secret
+	    	</div>
 	    </div>
-	    <div class="SHSecret pull-right col-xs-3 ng-cloak" ng-if="guess.gameStatus.playerNumber==1" align="right">
+	    <div class="SHSecret col-md-2 col-xs-4 ng-cloak" ng-if="guess.gameStatus.playerNumber==1" align="right">
 	    	{{guess.gameStatus.twoPlayerSettings.game.playerOneSecret}}
 	    </div>
-	     <div class="SHSecret pull-right col-xs-3 ng-cloak" ng-if="guess.gameStatus.playerNumber==2" align="right">
+	     <div class="SHSecret col-md-2 col-xs-4 ng-cloak" ng-if="guess.gameStatus.playerNumber==2" align="right">
 	    	{{guess.gameStatus.twoPlayerSettings.game.playerTwoSecret}}
 	    </div>
 	    <div class="row ng-cloak">
