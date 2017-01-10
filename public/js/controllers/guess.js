@@ -27,6 +27,7 @@
 			return letter;
 		}
 
+		// handles letter tracking
 		function fillAlphabetArray(){
 			for(var i = 0; i < 26; i++){
 				var letter = convertLetter(i);
@@ -63,6 +64,7 @@
 		    }
 		}
 
+		// handles guesses
 		function formGuessSubmit(){
 			var guess = vm.formGuess.toLowerCase();
 			var mustBeFive = "Your guess must be a 5 letter word.";
